@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class Contact extends StatelessWidget {
+class Contact extends StatefulWidget {
   final String pathImage;
   final String userName;
-  String details = "Experience: 04 years";
+
   final String comment;
   final double pointStars;
-  double _spacing = 15.0;
 
   Contact(this.pathImage, this.userName, this.comment, this.pointStars);
+
+  @override
+  _ContactState createState() => _ContactState();
+}
+
+class _ContactState extends State<Contact> {
+  String details = "Experience: 04 years";
+  double _spacing = 15.0;
+  Color colorCircular;
+  Color colorEmail;
+
+  @override
+  void initState() {
+    super.initState();
+    colorCircular = Colors.red;
+    colorEmail = Colors.white;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        _foto(),
-        _userDetails(),
-        userActionIcon()
-      ],
+      children: <Widget>[_foto(), _userDetails(), userActionIcon(context)],
     );
   }
 
@@ -35,16 +46,37 @@ class Contact extends StatelessWidget {
     );
   }
 
-  Widget userActionIcon() {
-    return Container(
-      margin: EdgeInsets.only(left: 80.0, top: _spacing),
-      alignment: Alignment.centerRight,
-      child: ClipOval(
-        child: Container(
-          color: Colors.red,
-          width: 50.0,
-          height: 50.0,
-          child: Icon(Icons.email, color: Colors.white,),
+  Widget userActionIcon(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (colorCircular != Colors.black12) {
+            colorCircular = Colors.black12;
+            colorEmail = Colors.black54;
+          } else {
+            colorCircular = Colors.red;
+            colorEmail = Colors.white;
+
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text("Me has notificado con un email"),
+              backgroundColor: Colors.green,
+            ));
+          }
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 80.0, top: _spacing),
+        alignment: Alignment.centerRight,
+        child: ClipOval(
+          child: Container(
+            color: colorCircular,
+            width: 50.0,
+            height: 50.0,
+            child: Icon(
+              Icons.email,
+              color: colorEmail,
+            ),
+          ),
         ),
       ),
     );
@@ -54,7 +86,7 @@ class Contact extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 20.0, top: _spacing),
       child: Text(
-        userName,
+        this.widget.userName,
         textAlign: TextAlign.left,
         style: TextStyle(
             fontSize: 17.0,
@@ -78,7 +110,7 @@ class Contact extends StatelessWidget {
       width: 70.0,
       height: 70.0,
       child: CircleAvatar(
-        backgroundImage: NetworkImage(pathImage),
+        backgroundImage: NetworkImage(this.widget.pathImage),
       ),
     );
   }
