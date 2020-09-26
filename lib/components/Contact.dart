@@ -51,16 +51,16 @@ class _ContactState extends State<Contact> {
       onTap: () {
         setState(() {
           if (colorCircular != Colors.black12) {
+             Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text("Le has enviado a ${this.widget.userName} un email para contratarla"),
+              backgroundColor: Colors.green,
+            ));
+
             colorCircular = Colors.black12;
             colorEmail = Colors.black54;
           } else {
             colorCircular = Colors.red;
             colorEmail = Colors.white;
-
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text("Me has notificado con un email"),
-              backgroundColor: Colors.green,
-            ));
           }
         });
       },
