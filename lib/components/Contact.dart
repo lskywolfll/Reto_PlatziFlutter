@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 class Contact extends StatefulWidget {
   final String pathImage;
   final String userName;
+  final int yearsExperiencie;
 
-  final String comment;
-  final double pointStars;
-
-  Contact(this.pathImage, this.userName, this.comment, this.pointStars);
+  Contact(this.pathImage, this.userName,this.yearsExperiencie);
 
   @override
   _ContactState createState() => _ContactState();
 }
 
 class _ContactState extends State<Contact> {
-  String details = "Experience: 04 years";
+  String details = "";
   double _spacing = 15.0;
   Color colorCircular;
   Color colorEmail;
@@ -24,6 +22,13 @@ class _ContactState extends State<Contact> {
     super.initState();
     colorCircular = Colors.red;
     colorEmail = Colors.white;
+
+    if(this.widget.yearsExperiencie > 9){
+      details = "Experience: ${this.widget.yearsExperiencie} years";
+    }else{
+      details = "Experience: 0${this.widget.yearsExperiencie} years";
+    }
+
   }
 
   @override
